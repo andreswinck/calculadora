@@ -3,9 +3,6 @@ workflows:
     name: Compilar APK Calculadora
     max_build_duration: 15
     instance_type: mac_mini_m1
-    environment:
-      android_sdk: latest
-      xcode: latest
     triggering:
       events:
         - push
@@ -20,3 +17,4 @@ workflows:
     artifacts:
       - calculadora/app/build/outputs/apk/debug/*.apk
       - app/build/outputs/apk/debug/*.apk
+
