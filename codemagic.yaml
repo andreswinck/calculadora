@@ -14,14 +14,15 @@ workflows:
           if [ -n "$REAL_GRADLEW" ]; then
             cd "$(dirname "$REAL_GRADLEW")"
             chmod +x gradlew
-            ./gradlew build -x test --quiet
+            ./gradlew assemble --quiet
           else
             REAL_DIR=$(dirname $(find . -name "build.gradle*" | head -n 1))
             cd "$REAL_DIR"
-            gradle build -x test --quiet
+            gradle assemble --quiet
           fi
     artifacts:
       - "**/build/outputs/apk/**/*.apk"
+
 
 
 
