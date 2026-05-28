@@ -19,5 +19,7 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "calculadora"
-include(":app")
 
+// Forzamos a Gradle a encontrar la carpeta de la app en la raíz
+include(":app")
+project(":app").projectDir = file("app")
