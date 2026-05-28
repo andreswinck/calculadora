@@ -2,19 +2,24 @@ workflows:
   android-apk-build:
     name: Compilar APK Calculadora
     max_build_duration: 15
-    instance_type: mac_mini_m1
+    instance_type: mac_mini_m2
     triggering:
       events:
         - push
     scripts:
       - name: Compilar APK
         script: |
-          if [ -d "calculadora" ]; then
-            cd calculadora
+          # Encontrar la carpeta real donde está el proyecto de Android
+          REAL_DIR=$(dirname $(find . -name "build.gradle*" | head -n 1))
+          cd "$REAL_DIR"
+          
+          # Verificar si existe gradlew o usar el sistema global
+          if [ -f gradlew ]; then
+            chmod +x gradlew
+            ./gradlew assembleDebug
+          else
+            gradle assembleDebug
           fi
-          chmod +x gradlew
-          ./gradlew assembleDebug
     artifacts:
-      - calculadora/app/build/outputs/apk/debug/*.apk
-      - app/build/outputs/apk/debug/*.apk
+      - "**/build/outputs/apk/debug/*.apk"
 
