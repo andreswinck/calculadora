@@ -17,11 +17,17 @@ jobs:
         distribution: 'zulu'
         java-version: '17'
 
-    - name: Dar permisos de ejecucion a Gradle
-      run: chmod +x gradlew
+    - name: Encontrar y dar permisos a Gradle
+      run: |
+        GRADLEW_PATH=$(find . -name gradlew)
+        echo "GRADLEW_DIR=$(dirname $GRADLEW_PATH)" >> $GITHUB_ENV
+        echo "GRADLEW_EXEC=$GRADLEW_PATH" >> $GITHUB_ENV
+        chmod +x $GRADLEW_PATH
 
     - name: Compilar APK de depuracion
-      run: ./gradlew assembleDebug
+      run: |
+        cd ${{ env.GRADLEW_DIR }}
+        ./gradlew assembleDebug
 
     - name: Subir APK finalizado
       uses: actions/upload-artifact@v4
