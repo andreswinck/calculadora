@@ -20,11 +20,12 @@ workflows:
             gradle assembleDebug --quiet
           fi
           
-          # Buscamos el APK y lo dejamos listo para descargar en la raíz
+          # Buscamos de forma masiva ignorando mayúsculas/minúsculas
           mkdir -p $CM_BUILD_DIR/output-apk
-          find . -name "*.apk" -exec cp {} $CM_BUILD_DIR/output-apk/ \;
+          find . -iname "*.apk" -exec cp {} $CM_BUILD_DIR/output-apk/ \;
     artifacts:
-      - output-apk/*.apk
+      - output-apk/*.[aA][pP][kK]
+      - "**/build/outputs/apk/**/*.apk"
 
 
 
