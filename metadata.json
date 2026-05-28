@@ -1,0 +1,6 @@
+{
+  "name": "Calculadora Racional",
+  "description": "Calculadora secundaria para fracciones exactas y ecuaciones paso a paso con entrada matemática intuitiva.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
