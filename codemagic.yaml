@@ -9,17 +9,20 @@ workflows:
     scripts:
       - name: Compilar APK
         script: |
-          # Encontrar la carpeta real donde está el proyecto de Android
-          REAL_DIR=$(dirname $(find . -name "build.gradle*" | head -n 1))
-          cd "$REAL_DIR"
+          # Buscar de forma agresiva dónde está el archivo gradlew real
+          REAL_GRADLEW=$(find . -name "gradlew" | head -n 1)
           
-          # Verificar si existe gradlew o usar el sistema global
-          if [ -f gradlew ]; then
+          if [ -n "$REAL_GRADLEW" ]; then
+            cd "$(dirname "$REAL_GRADLEW")"
             chmod +x gradlew
-            ./gradlew assembleDebug
+            ./gradlew :app:assembleDebug --stacktrace
           else
-            gradle assembleDebug
+            # Si no hay gradlew local, buscar el build.gradle y usar el sistema global
+            REAL_DIR=$(dirname $(find . -name "build.gradle*" | head -n 1))
+            cd "$REAL_DIR"
+            gradle :app:assembleDebug --stacktrace
           fi
     artifacts:
       - "**/build/outputs/apk/debug/*.apk"
+
 
