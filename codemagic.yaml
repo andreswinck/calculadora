@@ -20,13 +20,17 @@ workflows:
             gradle assembleDebug --quiet
           fi
           
-          # Buscamos de forma masiva ignorando mayúsculas/minúsculas
+          # Imprimimos en la consola todas las rutas para ver dónde se guardó
+          echo "--- LISTA DE ARCHIVOS GENERADOS ---"
+          find . -name "*.apk" -o -name "*.aab"
+          
+          # Copiamos cualquier resultado a la carpeta de salida
           mkdir -p $CM_BUILD_DIR/output-apk
-          find . -iname "*.apk" -exec cp {} $CM_BUILD_DIR/output-apk/ \;
+          find . -name "*.apk" -exec cp {} $CM_BUILD_DIR/output-apk/ \;
     artifacts:
-      - output-apk/*.[aA][pP][kK]
-      - "**/build/outputs/apk/**/*.apk"
-
+      - $CM_BUILD_DIR/output-apk/*.apk
+      - "app/build/outputs/apk/debug/*.apk"
+      - "build/outputs/apk/debug/*.apk"
 
 
 
