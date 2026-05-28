@@ -10,18 +10,17 @@ workflows:
       - name: Compilar APK
         script: |
           REAL_GRADLEW=$(find . -name "gradlew" | head -n 1)
-          
           if [ -n "$REAL_GRADLEW" ]; then
             cd "$(dirname "$REAL_GRADLEW")"
             chmod +x gradlew
-            ./gradlew assemble --quiet
+            ./gradlew assembleDebug --quiet
           else
             REAL_DIR=$(dirname $(find . -name "build.gradle*" | head -n 1))
             cd "$REAL_DIR"
-            gradle assemble --quiet
+            gradle assembleDebug --quiet
           fi
     artifacts:
-      - "**/build/outputs/apk/**/*.apk"
+      - "**/build/outputs/apk/debug/*.apk"
 
 
 
