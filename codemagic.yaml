@@ -19,8 +19,13 @@ workflows:
             cd "$REAL_DIR"
             gradle assembleDebug --quiet
           fi
+          
+          # Buscamos el APK y lo dejamos listo para descargar en la raíz
+          mkdir -p $CM_BUILD_DIR/output-apk
+          find . -name "*.apk" -exec cp {} $CM_BUILD_DIR/output-apk/ \;
     artifacts:
-      - "**/build/outputs/apk/debug/*.apk"
+      - output-apk/*.apk
+
 
 
 
