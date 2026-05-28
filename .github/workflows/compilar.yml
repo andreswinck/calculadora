@@ -17,20 +17,21 @@ jobs:
         distribution: 'zulu'
         java-version: '17'
 
-    - name: Encontrar y dar permisos a Gradle
-      run: |
-        GRADLEW_PATH=$(find . -name gradlew)
-        echo "GRADLEW_DIR=$(dirname $GRADLEW_PATH)" >> $GITHUB_ENV
-        echo "GRADLEW_EXEC=$GRADLEW_PATH" >> $GITHUB_ENV
-        chmod +x $GRADLEW_PATH
+    - name: Configurar y Reparar Gradle Automaticamente
+      uses: gradle/actions/setup-gradle@v4
 
-    - name: Compilar APK de depuracion
+    - name: Forzar Compilacion de Android
       run: |
-        cd ${{ env.GRADLEW_DIR }}
-        ./gradlew assembleDebug
+        if [ -f gradlew ]; then
+          chmod +x gradlew
+          ./gradlew assembleDebug
+        else
+          gradle assembleDebug
+        fi
 
     - name: Subir APK finalizado
       uses: actions/upload-artifact@v4
       with:
         name: app-debug-apk
         path: "**/build/outputs/apk/debug/*.apk"
+
